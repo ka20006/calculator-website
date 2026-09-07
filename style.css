@@ -1,0 +1,621 @@
+/* ==========================================================
+   MODERN GLASSMORPHISM CALCULATOR STYLESHEET
+   Supports Light/Dark Mode, Glassmorphism, Responsive Design
+   ========================================================== */
+
+/* 1. CSS Custom Properties / Design Tokens */
+:root {
+    /* Color Palette - Dark Mode (Default) */
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.12);
+    --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(99, 102, 241, 0.15);
+    
+    --display-bg: rgba(0, 0, 0, 0.25);
+    --display-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    /* Button Colors */
+    --btn-num-bg: rgba(255, 255, 255, 0.07);
+    --btn-num-hover: rgba(255, 255, 255, 0.14);
+    --btn-num-border: rgba(255, 255, 255, 0.08);
+    --btn-num-text: #f8fafc;
+    
+    --btn-action-bg: rgba(244, 63, 94, 0.15);
+    --btn-action-hover: rgba(244, 63, 94, 0.28);
+    --btn-action-border: rgba(244, 63, 94, 0.3);
+    --btn-action-text: #fda4af;
+    
+    --btn-op-bg: rgba(99, 102, 241, 0.18);
+    --btn-op-hover: rgba(99, 102, 241, 0.32);
+    --btn-op-border: rgba(99, 102, 241, 0.35);
+    --btn-op-text: #a5b4fc;
+    --btn-op-active: #6366f1;
+    
+    --btn-eq-bg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+    --btn-eq-hover: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%);
+    --btn-eq-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.5);
+    --btn-eq-text: #ffffff;
+
+    --panel-bg: rgba(15, 23, 42, 0.85);
+    --panel-border: rgba(255, 255, 255, 0.12);
+    --orb-color-1: #6366f1;
+    --orb-color-2: #ec4899;
+    --orb-color-3: #3b82f6;
+
+    --radius-card: 28px;
+    --radius-btn: 18px;
+    --radius-display: 20px;
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light Theme Variables */
+body.light-theme {
+    --bg-gradient: linear-gradient(135deg, #e0e7ff 0%, #f1f5f9 50%, #fce7f3 100%);
+    --card-bg: rgba(255, 255, 255, 0.65);
+    --card-border: rgba(255, 255, 255, 0.8);
+    --card-shadow: 0 25px 50px -12px rgba(100, 116, 139, 0.25), 0 0 30px rgba(99, 102, 241, 0.1);
+    
+    --display-bg: rgba(255, 255, 255, 0.7);
+    --display-border: rgba(203, 213, 225, 0.6);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    --btn-num-bg: rgba(255, 255, 255, 0.8);
+    --btn-num-hover: rgba(255, 255, 255, 1);
+    --btn-num-border: rgba(226, 232, 240, 0.8);
+    --btn-num-text: #1e293b;
+    
+    --btn-action-bg: rgba(254, 226, 226, 0.8);
+    --btn-action-hover: rgba(254, 202, 202, 1);
+    --btn-action-border: rgba(248, 113, 113, 0.3);
+    --btn-action-text: #e11d48;
+    
+    --btn-op-bg: rgba(224, 231, 255, 0.8);
+    --btn-op-hover: rgba(199, 210, 254, 1);
+    --btn-op-border: rgba(129, 140, 248, 0.4);
+    --btn-op-text: #4338ca;
+    --btn-op-active: #4f46e5;
+    
+    --panel-bg: rgba(255, 255, 255, 0.9);
+    --panel-border: rgba(203, 213, 225, 0.8);
+    --orb-color-1: #818cf8;
+    --orb-color-2: #f472b6;
+    --orb-color-3: #60a5fa;
+}
+
+/* 2. Global Reset & Base Setup */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    position: relative;
+    padding: 20px;
+    transition: background var(--transition-normal), color var(--transition-normal);
+}
+
+/* 3. Ambient Glowing Background Orbs */
+.background-decorations {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.ambient-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.55;
+    animation: floatOrb 18s ease-in-out infinite alternate;
+}
+
+.circle-1 {
+    width: 380px;
+    height: 380px;
+    background: var(--orb-color-1);
+    top: 5%;
+    left: 10%;
+    animation-duration: 16s;
+}
+
+.circle-2 {
+    width: 320px;
+    height: 320px;
+    background: var(--orb-color-2);
+    bottom: 10%;
+    right: 10%;
+    animation-duration: 20s;
+}
+
+.circle-3 {
+    width: 250px;
+    height: 250px;
+    background: var(--orb-color-3);
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-duration: 24s;
+}
+
+@keyframes floatOrb {
+    0% { transform: translateY(0) scale(1) rotate(0deg); }
+    50% { transform: translateY(-30px) scale(1.08) rotate(180deg); }
+    100% { transform: translateY(30px) scale(0.95) rotate(360deg); }
+}
+
+/* 4. App Layout Container */
+.app-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 420px;
+}
+
+/* 5. Glassmorphism Calculator Card */
+.calculator-card {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: var(--radius-card);
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: all var(--transition-normal);
+}
+
+/* 6. Header Section */
+.calc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand-badge {
+    background: var(--btn-op-bg);
+    color: var(--btn-op-text);
+    border: 1px solid var(--btn-op-border);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.brand-title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    color: var(--text-secondary);
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.icon-btn:active {
+    transform: scale(0.95);
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    transition: transform var(--transition-fast);
+}
+
+/* Theme Icon toggling */
+body.light-theme .sun-icon {
+    display: none;
+}
+body.light-theme .moon-icon {
+    display: block;
+}
+body:not(.light-theme) .sun-icon {
+    display: block;
+}
+body:not(.light-theme) .moon-icon {
+    display: none;
+}
+
+/* 7. Display Container */
+.display-container {
+    background: var(--display-bg);
+    border: 1px solid var(--display-border);
+    border-radius: var(--radius-display);
+    padding: 16px 20px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.previous-operand {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    min-height: 24px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color var(--transition-fast);
+}
+
+.current-operand {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    text-align: right;
+    white-space: nowrap;
+    transition: font-size 0.2s ease, color var(--transition-fast);
+}
+
+.current-operand::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+/* 8. Keypad Grid */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+/* Button Base Styles */
+.btn {
+    border: none;
+    outline: none;
+    height: 62px;
+    border-radius: var(--radius-btn);
+    font-size: 1.35rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease, background var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:active,
+.btn.active-key {
+    transform: scale(0.92);
+}
+
+/* Ripple Click Effect */
+.btn::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.4) 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform 0.4s, opacity 0.6s;
+}
+
+.btn:active::after {
+    transform: scale(0, 0);
+    opacity: 0.3;
+    transition: 0s;
+}
+
+/* Number Buttons */
+.btn-number {
+    background: var(--btn-num-bg);
+    border: 1px solid var(--btn-num-border);
+    color: var(--btn-num-text);
+}
+
+.btn-number:hover {
+    background: var(--btn-num-hover);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Clear / Backspace / Function Buttons */
+.btn-action {
+    background: var(--btn-action-bg);
+    border: 1px solid var(--btn-action-border);
+    color: var(--btn-action-text);
+    font-weight: 600;
+}
+
+.btn-action:hover {
+    background: var(--btn-action-hover);
+    box-shadow: 0 4px 14px rgba(244, 63, 94, 0.2);
+}
+
+/* Operators (+, -, *, /) */
+.btn-operator {
+    background: var(--btn-op-bg);
+    border: 1px solid var(--btn-op-border);
+    color: var(--btn-op-text);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.btn-operator:hover {
+    background: var(--btn-op-hover);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+}
+
+.btn-operator.active-op {
+    background: var(--btn-op-active);
+    color: #ffffff;
+    box-shadow: 0 0 16px rgba(99, 102, 241, 0.6);
+}
+
+/* Equals Button (=) */
+.btn-equals {
+    background: var(--btn-eq-bg);
+    color: var(--btn-eq-text);
+    font-size: 1.6rem;
+    font-weight: 600;
+    box-shadow: var(--btn-eq-shadow);
+}
+
+.btn-equals:hover {
+    background: var(--btn-eq-hover);
+    box-shadow: 0 12px 25px -5px rgba(99, 102, 241, 0.7);
+}
+
+/* 9. Calculation History Drawer */
+.history-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--panel-bg);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-card);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.96);
+    transition: opacity var(--transition-normal), transform var(--transition-normal);
+}
+
+.history-panel.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 12px;
+}
+
+.history-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.history-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--btn-action-text);
+    font-weight: 500;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background var(--transition-fast);
+}
+
+.btn-text:hover {
+    background: var(--btn-action-bg);
+}
+
+.close-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+}
+
+.history-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 4px;
+}
+
+.history-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.history-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    transition: all var(--transition-fast);
+}
+
+.history-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateX(-3px);
+}
+
+.history-expr {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.history-result {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--btn-op-text);
+}
+
+.history-empty {
+    margin: auto;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+/* 10. Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(15, 23, 42, 0.9);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    backdrop-filter: blur(12px);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    z-index: 100;
+}
+
+body.light-theme .toast {
+    background: rgba(255, 255, 255, 0.95);
+    color: #0284c7;
+    border: 1px solid rgba(2, 132, 199, 0.3);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* 11. Responsive Breakpoints */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .calculator-card {
+        padding: 18px;
+        gap: 16px;
+        border-radius: 22px;
+    }
+
+    .btn {
+        height: 54px;
+        font-size: 1.2rem;
+        border-radius: 14px;
+    }
+
+    .current-operand {
+        font-size: 2.1rem;
+    }
+}
+
+@media (max-height: 650px) {
+    .btn {
+        height: 48px;
+    }
+    
+    .display-container {
+        min-height: 80px;
+    }
+}

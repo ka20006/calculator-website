@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Glassmorphism Calculator</title>
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background glowing ambient orbs for glassmorphism depth -->
+    <div class="background-decorations">
+        <div class="ambient-circle circle-1"></div>
+        <div class="ambient-circle circle-2"></div>
+        <div class="ambient-circle circle-3"></div>
+    </div>
+
+    <!-- Main Application Wrapper -->
+    <main class="app-container">
+        <!-- Calculator Glass Card -->
+        <section class="calculator-card" id="calculator">
+            <!-- Header with Theme Toggle and History Button -->
+            <header class="calc-header">
+                <div class="brand">
+                    <span class="brand-badge">CALC</span>
+                    <span class="brand-title">NeoMath</span>
+                </div>
+                <div class="header-actions">
+                    <!-- Copy Result Button -->
+                    <button id="copy-btn" class="icon-btn" title="Copy Result (Ctrl+C)" aria-label="Copy Result">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                    <!-- History Toggle Button -->
+                    <button id="history-toggle-btn" class="icon-btn" title="Toggle Calculation History" aria-label="Toggle History">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </button>
+                    <!-- Theme Toggle (Dark / Light) -->
+                    <button id="theme-toggle-btn" class="icon-btn" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+                        <!-- Sun Icon (shown in dark mode) -->
+                        <svg class="icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <!-- Moon Icon (shown in light mode) -->
+                        <svg class="icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Calculator Display Area -->
+            <div class="display-container">
+                <!-- Expression / Formula history line -->
+                <div class="previous-operand" id="previous-operand" aria-live="polite"></div>
+                <!-- Current number input / evaluation result -->
+                <div class="current-operand" id="current-operand" aria-live="polite">0</div>
+            </div>
+
+            <!-- Keypad Grid -->
+            <div class="keypad">
+                <!-- Row 1 -->
+                <button class="btn btn-action" data-action="clear" title="Clear All (Escape / Delete)">AC</button>
+                <button class="btn btn-action" data-action="delete" title="Backspace (Backspace)">⌫</button>
+                <button class="btn btn-action" data-action="percent" title="Percentage (%)">%</button>
+                <button class="btn btn-operator" data-operator="÷" title="Divide (/)">÷</button>
+
+                <!-- Row 2 -->
+                <button class="btn btn-number" data-number="7">7</button>
+                <button class="btn btn-number" data-number="8">8</button>
+                <button class="btn btn-number" data-number="9">9</button>
+                <button class="btn btn-operator" data-operator="×" title="Multiply (*)">×</button>
+
+                <!-- Row 3 -->
+                <button class="btn btn-number" data-number="4">4</button>
+                <button class="btn btn-number" data-number="5">5</button>
+                <button class="btn btn-number" data-number="6">6</button>
+                <button class="btn btn-operator" data-operator="-" title="Subtract (-)">−</button>
+
+                <!-- Row 4 -->
+                <button class="btn btn-number" data-number="1">1</button>
+                <button class="btn btn-number" data-number="2">2</button>
+                <button class="btn btn-number" data-number="3">3</button>
+                <button class="btn btn-operator" data-operator="+" title="Add (+)">+</button>
+
+                <!-- Row 5 -->
+                <button class="btn btn-action" data-action="plus-minus" title="Negate Number (±)">±</button>
+                <button class="btn btn-number" data-number="0">0</button>
+                <button class="btn btn-number" data-number=".">.</button>
+                <button class="btn btn-equals" data-action="calculate" title="Equals (Enter / =)">=</button>
+            </div>
+        </section>
+
+        <!-- Calculation History Drawer / Modal -->
+        <aside class="history-panel" id="history-panel" aria-label="Calculation History">
+            <div class="history-header">
+                <h3>Calculation History</h3>
+                <div class="history-controls">
+                    <button id="clear-history-btn" class="btn-text" title="Clear All History">Clear</button>
+                    <button id="close-history-btn" class="icon-btn close-btn" title="Close History" aria-label="Close History">✕</button>
+                </div>
+            </div>
+            <div class="history-list" id="history-list">
+                <div class="history-empty">No calculations yet</div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Toast Notification for Copy / Feedback -->
+    <div id="toast" class="toast" role="alert" aria-live="assertive">Copied to clipboard!</div>
+
+    <!-- Main JavaScript Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
